@@ -1,9 +1,6 @@
 package br.com.meli.desafio_quality.service;
 
-import br.com.meli.desafio_quality.dto.LargestRoomAreaDTO;
-import br.com.meli.desafio_quality.dto.PropertyDTO;
-import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
-import br.com.meli.desafio_quality.dto.RoomAreasDTO;
+import br.com.meli.desafio_quality.dto.*;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
@@ -11,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +32,11 @@ public class PropertyService {
 
     private Double calculateRoomArea(Room room) {
         return room.getRoomLength() * room.getRoomWidth();
+    }
+
+    private BigDecimal calculatePropertyPrice(Property property) {
+
+         return property.getDistrict().getValueDistrictM2().multiply(BigDecimal.valueOf(calculateTotalArea(property.getId()).getTotalArea()));
     }
 
     public PropertyTotalAreaDTO calculateTotalArea(String id) {
@@ -61,5 +64,10 @@ public class PropertyService {
 
         return new RoomAreasDTO(roomsMap);
 
+    }
+
+    public PropertyPriceDTO calculateProperty(String propertyId) {
+        Property property = propertyRepository.getProperty(propertyId);
+        return new PropertyPriceDTO(property.getName(), calculatePropertyPrice(property));
     }
 }
