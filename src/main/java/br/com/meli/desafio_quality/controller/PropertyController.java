@@ -1,6 +1,7 @@
 package br.com.meli.desafio_quality.controller;
 
 import br.com.meli.desafio_quality.dto.PropertyDTO;
+import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
 import br.com.meli.desafio_quality.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class PropertyController {
     }
 
     @GetMapping("/calculate-total-area-property/{id}")
-    public ResponseEntity<Double> calculateTotalArea(@PathVariable String id) {
+    public ResponseEntity<PropertyTotalAreaDTO> calculateTotalArea(@PathVariable String id) {
         return new ResponseEntity<>(propertyService.calculateTotalArea(id), HttpStatus.OK);
     }
 

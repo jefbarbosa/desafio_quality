@@ -1,6 +1,7 @@
 package br.com.meli.desafio_quality.service;
 
 import br.com.meli.desafio_quality.dto.PropertyDTO;
+import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
@@ -28,14 +29,15 @@ public class PropertyService {
         return room.getRoomLength() * room.getRoomWidth();
     }
 
-    public Double calculateTotalArea(String id) {
+    public PropertyTotalAreaDTO calculateTotalArea(String id) {
         Property property = propertyRepository.getProperty(id);
         Double propertyArea = 0.0;
         for (Room room: property.getRooms()) {
             propertyArea += calculateRoomArea(room);
         }
-        return propertyArea;
+        return new PropertyTotalAreaDTO(id, property.getName(), propertyArea);
 
 //        return property.getRooms().stream().reduce(0.0, (acc, currentRoom) -> acc + calculateRoomArea(currentRoom), Double::sum);
     }
+
 }
