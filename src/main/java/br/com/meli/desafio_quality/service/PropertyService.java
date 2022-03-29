@@ -6,6 +6,7 @@ import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class PropertyService {
 
     @Autowired
