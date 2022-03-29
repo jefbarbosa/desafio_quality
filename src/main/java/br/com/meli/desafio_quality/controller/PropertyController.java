@@ -26,4 +26,9 @@ public class PropertyController {
         return new ResponseEntity<>(propertyService.getAllProperties(), HttpStatus.OK);
     }
 
+    @GetMapping("/calculate-total-area-property/{id}")
+    public ResponseEntity<Double> calculateTotalArea(@PathVariable String id) {
+        return new ResponseEntity<>(propertyService.calculateTotalArea(id), HttpStatus.OK);
+    }
+
 }

@@ -11,4 +11,6 @@ public interface PropertyRepository {
     Property addProperty(Property property);
 
     List<Property> getAllProperties();
+
+    Property getProperty(String propertyId);
 }
