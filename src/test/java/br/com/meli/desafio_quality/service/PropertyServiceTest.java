@@ -33,9 +33,9 @@ public class PropertyServiceTest {
     @Test
     public void findLargestRoomTest() {
         List<Room> rooms = Arrays.asList(
-                new Room("cozinha", 300.0, 10.0),
-                new Room("quarto", 20.0, 10.0),
-                new Room("sala", 10.0, 10.0)
+                new Room("kitchen", 300.0, 10.0),
+                new Room("bedroom", 20.0, 10.0),
+                new Room("living room", 10.0, 10.0)
                 );
         District district = new District("Tijuca", BigDecimal.valueOf(100.0));
         Property property = new Property("XYZ-12345", "Tijuca",district, rooms);
@@ -45,7 +45,7 @@ public class PropertyServiceTest {
         LargestRoomAreaDTO largestRoomAreaDTO = propertyService.findLargestRoom("XYZ-12345");
 
         assertEquals(3000.0, largestRoomAreaDTO.getTotalArea());
-        assertEquals("cozinha", largestRoomAreaDTO.getRoomName());
+        assertEquals("kitchen", largestRoomAreaDTO.getRoomName());
 
     }
 }

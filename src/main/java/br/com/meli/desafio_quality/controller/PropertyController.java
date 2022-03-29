@@ -3,6 +3,7 @@ package br.com.meli.desafio_quality.controller;
 import br.com.meli.desafio_quality.dto.LargestRoomAreaDTO;
 import br.com.meli.desafio_quality.dto.PropertyDTO;
 import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
+import br.com.meli.desafio_quality.dto.RoomAreasDTO;
 import br.com.meli.desafio_quality.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,11 @@ public class PropertyController {
     @GetMapping("/find-largest-room/{propertyId}")
     public ResponseEntity<LargestRoomAreaDTO> findLargestRoom(@PathVariable String propertyId) {
         return new ResponseEntity<>(propertyService.findLargestRoom(propertyId), HttpStatus.OK);
+    }
+
+    @GetMapping("/calculate-area-rooms/{propertyId}")
+    public ResponseEntity<RoomAreasDTO> calculateAreaRooms(@PathVariable String propertyId) {
+        return new ResponseEntity<>(propertyService.calculateAreaRooms(propertyId) , HttpStatus.OK);
     }
 
 }

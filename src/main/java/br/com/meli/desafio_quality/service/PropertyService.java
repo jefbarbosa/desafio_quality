@@ -3,6 +3,7 @@ package br.com.meli.desafio_quality.service;
 import br.com.meli.desafio_quality.dto.LargestRoomAreaDTO;
 import br.com.meli.desafio_quality.dto.PropertyDTO;
 import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
+import br.com.meli.desafio_quality.dto.RoomAreasDTO;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,4 +53,13 @@ public class PropertyService {
         return new LargestRoomAreaDTO(property.getName(), room.getRoomName(), calculateRoomArea(room));
     }
 
+    public RoomAreasDTO calculateAreaRooms(String propertyId) {
+        Property property = propertyRepository.getProperty(propertyId);
+
+        Map<String, Double> roomsMap = new HashMap<>();
+        property.getRooms().forEach(room -> roomsMap.put(room.getRoomName(), calculateRoomArea(room)));
+
+        return new RoomAreasDTO(roomsMap);
+
+    }
 }
