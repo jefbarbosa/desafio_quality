@@ -1,5 +1,6 @@
 package br.com.meli.desafio_quality.controller;
 
+import br.com.meli.desafio_quality.dto.LargestRoomAreaDTO;
 import br.com.meli.desafio_quality.dto.PropertyDTO;
 import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
 import br.com.meli.desafio_quality.service.PropertyService;
@@ -27,9 +28,14 @@ public class PropertyController {
         return new ResponseEntity<>(propertyService.getAllProperties(), HttpStatus.OK);
     }
 
-    @GetMapping("/calculate-total-area-property/{id}")
-    public ResponseEntity<PropertyTotalAreaDTO> calculateTotalArea(@PathVariable String id) {
-        return new ResponseEntity<>(propertyService.calculateTotalArea(id), HttpStatus.OK);
+    @GetMapping("/calculate-total-area-property/{propertyId}")
+    public ResponseEntity<PropertyTotalAreaDTO> calculateTotalArea(@PathVariable String propertyId) {
+        return new ResponseEntity<>(propertyService.calculateTotalArea(propertyId), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-largest-room/{propertyId}")
+    public ResponseEntity<LargestRoomAreaDTO> findLargestRoom(@PathVariable String propertyId) {
+        return new ResponseEntity<>(propertyService.findLargestRoom(propertyId), HttpStatus.OK);
     }
 
 }
