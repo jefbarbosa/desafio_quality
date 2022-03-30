@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @PostMapping("/insert")
-    public ResponseEntity<PropertyDTO> insertProperty(@RequestBody PropertyDTO propertyDTO) {
+    public ResponseEntity<PropertyDTO> insertProperty(@RequestBody @Valid PropertyDTO propertyDTO) {
         return new ResponseEntity<>(propertyService.insertProperty(propertyDTO), HttpStatus.CREATED);
     }
 
