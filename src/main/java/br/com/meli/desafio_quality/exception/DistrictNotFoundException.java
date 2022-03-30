@@ -9,7 +9,7 @@ public class DistrictNotFoundException extends RuntimeException {
     private final ErrorDTO error;
     private final HttpStatus status = HttpStatus.BAD_REQUEST;
 
-    public DistrictNotFoundException(String message) {
-        this.error = new ErrorDTO(this.getClass().getSimpleName(), message);
+    public DistrictNotFoundException(String districtName) {
+        this.error = new ErrorDTO(this.getClass().getSimpleName(), "o bairro " + districtName + " não está cadastrado.");
     }
 }
