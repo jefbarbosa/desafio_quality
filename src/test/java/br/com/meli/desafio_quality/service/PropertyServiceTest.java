@@ -24,10 +24,13 @@ public class PropertyServiceTest {
     @Mock
     private PropertyRepository propertyRepository;
 
+    @Mock
+    private DistrictService districtService;
+
     @BeforeEach
     private void initializeProperties() {
         MockitoAnnotations.openMocks(this);
-        this.propertyService = new PropertyService(propertyRepository);
+        this.propertyService = new PropertyService(propertyRepository, districtService);
     }
 
     @Test

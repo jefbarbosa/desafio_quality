@@ -1,8 +1,10 @@
 package br.com.meli.desafio_quality.service;
 
 import br.com.meli.desafio_quality.dto.*;
+import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
+import br.com.meli.desafio_quality.repository.DistrictRepository;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,12 @@ public class PropertyService {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    @Autowired
+    private DistrictService districtService;
+
     public PropertyDTO insertProperty(PropertyDTO propertyDTO) {
+        districtService.findDistrict(propertyDTO.getDistrict().getName());
+
         return PropertyDTO.propertyToDTO(propertyRepository.addProperty(PropertyDTO.dtoToProperty(propertyDTO)));
     }
 
