@@ -69,7 +69,7 @@ public class PropertyServiceTest {
 
     }
     @Test
-    public void calculateProperty() {
+    public void calculatePropertyTest() {
         List<Room> rooms = Arrays.asList(
                 new Room("kitchen", 300.0, 10.0),
                 new Room("bedroom", 20.0, 10.0),
