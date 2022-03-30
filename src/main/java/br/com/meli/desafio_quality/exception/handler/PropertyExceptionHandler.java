@@ -1,6 +1,7 @@
 package br.com.meli.desafio_quality.exception.handler;
 
 import br.com.meli.desafio_quality.dto.ErrorDTO;
+import br.com.meli.desafio_quality.exception.DistrictNotFoundException;
 import br.com.meli.desafio_quality.exception.PropertyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,4 +31,10 @@ public class PropertyExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(DistrictNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleDistrictNotFoundException(DistrictNotFoundException ex) {
+        ErrorDTO error = new ErrorDTO("DistrictNotFoundException", ex.getError().getDescription());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }
