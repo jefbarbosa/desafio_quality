@@ -3,7 +3,9 @@ package br.com.meli.desafio_quality.service;
 import br.com.meli.desafio_quality.dto.DistrictDTO;
 import br.com.meli.desafio_quality.dto.ErrorDTO;
 import br.com.meli.desafio_quality.entity.District;
+import br.com.meli.desafio_quality.exception.DistrictNotFoundException;
 import br.com.meli.desafio_quality.exception.PropertyException;
+import br.com.meli.desafio_quality.repository.DistrictRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,7 +22,7 @@ public class DistrictServiceTest {
     private DistrictService districtService;
 
     @Mock
-    private DistrictRespository districtRespository;
+    private DistrictRepository districtRespository;
 
     @BeforeEach
     private void initializeProperties() {
@@ -29,36 +31,23 @@ public class DistrictServiceTest {
     }
 
     @Test
-    public void getInexistentDistrictServiceTest() {
-
+    public void getDistrictServiceTest() {
         Mockito.when(districtRespository.findDistrict("Tijuca")).thenReturn(new District("Tijuca", BigDecimal.valueOf(15000)));
-        Mockito.when(districtRespository.findDistrict("District non existent")).thenReturn(
-                new ErrorDTO("DistrictAlreadyExists", "This District already exists!")
-        );
 
         DistrictDTO districtDTO = districtService.findDistrict("Tijuca");
 
         assertEquals("Tijuca", districtDTO.getName());
-
-        try {
-            districtService.findDistrict("District non existent");
-        } catch(PropertyException ex) {
-            System.out.println(ex.getError());
-        }
-
-//        assertNotEquals("Tijuca", districtDTO.getName());
     }
 
     @Test
-    public void getDistrictRepositoryTest() {
-        // Check if the respository call is working with a pre-defined(startup load) data, property named Tijuca
+    public void getInexistentDistrictServiceTest() {
+        Mockito.when(districtRespository.findDistrict("District non existent")).thenThrow(new DistrictNotFoundException("District non existent"));
 
         try {
             districtService.findDistrict("District non existent");
-        } catch(PropertyException ex) {
+        } catch(DistrictNotFoundException ex) {
             System.out.println(ex.getError());
+            assertEquals("o bairro District non existent não está cadastrado.", ex.getError().getDescription());
         }
-
-        //assertEquals("Tijuca", district.getName());
     }
 }

@@ -146,4 +146,15 @@ public class PropertyServiceTest {
         assertEquals("Tijuca", propertyDTOList.get(0).getName());
     }
 
+    @Test
+    public void insertPropertyTest() {
+        List<Property> properties = generateProperties();
+
+        Mockito.when(propertyRepository.addProperty(Mockito.any())).thenReturn(properties.get(0));
+
+        PropertyDTO response = propertyService.insertProperty(PropertyDTO.propertyToDTO(properties.get(0)));
+
+        assertEquals("XYZ-12345", response.getId());
+    }
+
 }
