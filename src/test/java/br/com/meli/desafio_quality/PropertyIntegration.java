@@ -115,8 +115,6 @@ public class PropertyIntegration {
 
     @Test
     public void getAllPropertiesTest() throws Exception{
-        List<PropertyDTO> propertyList = propertyService.getAllProperties();
-        assertEquals(2, propertyList.size());
 
         MvcResult postResult = mockMvc.perform(get("/property/get-all-properties"))
                 .andExpect(status().isOk())
