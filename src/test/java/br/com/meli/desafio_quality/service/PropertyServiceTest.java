@@ -4,6 +4,7 @@ import br.com.meli.desafio_quality.dto.LargestRoomAreaDTO;
 import br.com.meli.desafio_quality.dto.PropertyPriceDTO;
 import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
 import br.com.meli.desafio_quality.dto.RoomAreasDTO;
+import br.com.meli.desafio_quality.dto.PropertyDTO;
 import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
@@ -15,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -108,6 +110,40 @@ public class PropertyServiceTest {
         assertEquals(200.0, roomnsAreaDTO.getRoomAreas().get("bedroom"));
         assertEquals(100.0, roomnsAreaDTO.getRoomAreas().get("living room"));
 
+    }
+
+    private List<Property> generateProperties() {
+        List<Property> properties = new ArrayList<>();
+
+        List<Room> rooms1 = Arrays.asList(
+                new Room("kitchen", 30.0, 10.0),
+                new Room("bedroom", 20.0, 10.0),
+                new Room("living room", 10.0, 10.0)
+        );
+        District district1 = new District("Tijuca Village", BigDecimal.valueOf(100.0));
+        Property property1 = new Property("XYZ-12345", "Tijuca",district1, rooms1);
+
+        List<Room> rooms2 = Arrays.asList(
+                new Room("bedroom", 10.0, 4.0),
+                new Room("kitchen", 10.0, 3.0),
+                new Room("bathroom", 5, 5.0)
+        );
+        District district2 = new District("Moema", BigDecimal.valueOf(100.0));
+        Property property2 = new Property("XYZ-123456", "Moema Village",district2, rooms2);
+
+        properties.add(property1);
+        properties.add(property2);
+
+        return properties;
+    }
+
+    @Test
+    public void getAllPropertiesToDtoTest() {
+        List<Property> propertyList = generateProperties();
+        Mockito.when(propertyRepository.getAllProperties()).thenReturn(propertyList);
+
+        List<PropertyDTO> propertyDTOList = propertyService.getAllProperties();
+        assertEquals("Tijuca", propertyDTOList.get(0).getName());
     }
 
 }
