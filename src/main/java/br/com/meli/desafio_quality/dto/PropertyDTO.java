@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -15,10 +19,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PropertyDTO {
+
+
     private String id;
+
+    @NotBlank(message = "O nome da propriedade não pode estar vazio.")
+    @Pattern(regexp = "[A-Z][a-záàâãéèêíïóôõöúçñ A-Z0-9]+", message = "O nome da propriedade deve começar com uma letra maiúscula.")
+    @Size(max = 30, message = "O comprimento do nome da propriedade não pode exceder 30 caracteres.")
     private String name;
+
     private DistrictDTO district;
-    private List<RoomDTO> rooms;
+    private List<@Valid RoomDTO> rooms;
+
 
 
     public static Property dtoToProperty(PropertyDTO propertyDTO) {
