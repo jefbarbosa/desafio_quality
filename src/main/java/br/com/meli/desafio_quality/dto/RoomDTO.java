@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 public class RoomDTO {
 
     @NotBlank(message = "O nome do cômodo não pode estar vazio.")
-    @Pattern(regexp = "[A-Z][a-záàâãéèêíïóôõöúçñ]+", message = "O nome do cômodo deve começar com uma letra maiúscula.")
+    @Pattern(regexp = "[A-Z][a-záàâãéèêíïóôõöúçñ A-Z0-9]+", message = "O nome do cômodo deve começar com uma letra maiúscula.")
     @Size(max = 30, message = "O comprimento do nome do cômodo não pode exceder 30 caracteres.")
     private String roomName;
 
