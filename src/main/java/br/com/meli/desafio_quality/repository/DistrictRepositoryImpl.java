@@ -20,6 +20,6 @@ public class DistrictRepositoryImpl implements DistrictRepository {
     public District findDistrict(String districtName) {
         return districts.stream().filter(district -> district.getName().equals(districtName))
                 .findFirst()
-                .orElseThrow(() -> new DistrictNotFoundException("o bairro " + districtName + " não está cadastrado."));
+                .orElseThrow(() -> new DistrictNotFoundException(districtName));
     }
 }
