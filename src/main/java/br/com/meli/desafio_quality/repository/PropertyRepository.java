@@ -13,4 +13,6 @@ public interface PropertyRepository {
     List<Property> getAllProperties();
 
     Property getProperty(String propertyId);
+
+    void cleanAllProperties();
 }

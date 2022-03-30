@@ -26,4 +26,9 @@ public class PropertyRepositoryImpl implements PropertyRepository{
     public Property getProperty(String propertyId) {
         return properties.stream().filter(prop -> prop.getId().equals(propertyId)).findFirst().orElse(new Property());
     }
+
+    @Override
+    public void cleanAllProperties() {
+        properties.clear();
+    }
 }
