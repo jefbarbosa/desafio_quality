@@ -1,9 +1,9 @@
 package br.com.meli.desafio_quality.service;
 
 import br.com.meli.desafio_quality.dto.LargestRoomAreaDTO;
-import br.com.meli.desafio_quality.dto.PropertyDTO;
 import br.com.meli.desafio_quality.dto.PropertyPriceDTO;
 import br.com.meli.desafio_quality.dto.PropertyTotalAreaDTO;
+import br.com.meli.desafio_quality.dto.RoomAreasDTO;
 import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
@@ -27,10 +27,13 @@ public class PropertyServiceTest {
     @Mock
     private PropertyRepository propertyRepository;
 
+    @Mock
+    private DistrictService districtService;
+
     @BeforeEach
     private void initializeProperties() {
         MockitoAnnotations.openMocks(this);
-        this.propertyService = new PropertyService(propertyRepository);
+        this.propertyService = new PropertyService(propertyRepository, districtService);
     }
 
     @Test
@@ -86,5 +89,25 @@ public class PropertyServiceTest {
 
     }
 
+
+    @Test
+    public void calculateRoomAreaTest(){
+        List<Room> rooms = Arrays.asList(
+                new Room("kitchen", 30.0, 10.0),
+                new Room("bedroom", 20.0, 10.0),
+                new Room("living room", 10.0, 10.0)
+        );
+        District district = new District("Tijuca", BigDecimal.valueOf(100.0));
+        Property property = new Property("XYZ-12345", "Tijuca",district, rooms);
+
+        Mockito.when(propertyRepository.getProperty("XYZ-12345")).thenReturn(property);
+
+        RoomAreasDTO roomnsAreaDTO = propertyService.calculateAreaRooms(property.getId());
+
+        assertEquals(300.0, roomnsAreaDTO.getRoomAreas().get("kitchen"));
+        assertEquals(200.0, roomnsAreaDTO.getRoomAreas().get("bedroom"));
+        assertEquals(100.0, roomnsAreaDTO.getRoomAreas().get("living room"));
+
+    }
 
 }

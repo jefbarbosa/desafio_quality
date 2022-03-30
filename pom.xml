@@ -76,6 +76,27 @@
                     </excludes>
                 </configuration>
             </plugin>
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <compilerArgs>
+                        <compilerArg>
+                            --enable-preview
+                        </compilerArg>
+                    </compilerArgs>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    <parameters>true</parameters>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
