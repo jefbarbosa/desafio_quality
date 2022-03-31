@@ -15,19 +15,38 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ *  Classe responsável por testar os métodos do service DistrictService
+ *
+ * @author Luís Felipe Olimpio
+ * @author Lucas Troleiz
+ */
 public class DistrictServiceTest {
 
+
+    /**
+     * {@link DistrictService Service} serviço que está sendo testado
+     */
     private DistrictService districtService;
 
+    /**
+     * {@link DistrictRepository Repository} repositório que está sendo mockado
+     */
     @Mock
     private DistrictRepository districtRespository;
 
+    /**
+     * Instanciando sut
+     */
     @BeforeEach
     private void initializeProperties() {
         MockitoAnnotations.openMocks(this);
         this.districtService = new DistrictService(districtRespository);
     }
 
+    /**
+     * Teste com objetivo de validar se ao enviar o nome de um bairro como parâmetro, o método findDistrict retorna o bairro procurado
+     */
     @Test
     public void getDistrictServiceTest() {
         Mockito.when(districtRespository.findDistrict("Tijuca")).thenReturn(new District("Tijuca", BigDecimal.valueOf(15000)));
@@ -37,6 +56,9 @@ public class DistrictServiceTest {
         assertEquals("Tijuca", districtDTO.getName());
     }
 
+    /**
+     * Teste com objetivo de validar o erro lançado ao enviar o nome de um bairro não existente como parâmetro do método findDistrict
+     */
     @Test
     public void getInexistentDistrictServiceTest() {
         Mockito.when(districtRespository.findDistrict("District non existent")).thenThrow(new DistrictNotFoundException("District non existent"));

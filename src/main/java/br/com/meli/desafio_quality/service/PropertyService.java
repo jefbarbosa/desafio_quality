@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+
+
 public class PropertyService {
 
     @Autowired
