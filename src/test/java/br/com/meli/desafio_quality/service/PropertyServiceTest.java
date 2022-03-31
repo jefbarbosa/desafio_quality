@@ -21,7 +21,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * Classe de teste responsável por testes os metodos da classe PropertyService.
+ * @author Jederson Macedo
+ * @author Igor Nogueira
+ * @author Arthur Guedes
+ * @author Jeferson Barbosa
+ */
 public class PropertyServiceTest {
 
     private PropertyService propertyService;
@@ -38,6 +44,10 @@ public class PropertyServiceTest {
         this.propertyService = new PropertyService(propertyRepository, districtService);
     }
 
+    /**
+     * Encontra o maior comodo da propriedade.
+     * @result LargestRoomAreaDTO  vai ser criado sem nenhum erro
+     */
     @Test
     public void findLargestRoomTest() {
         List<Room> rooms = Arrays.asList(
@@ -56,6 +66,10 @@ public class PropertyServiceTest {
         assertEquals("kitchen", largestRoomAreaDTO.getRoomName());
 
     }
+    /**
+     * Valida o calculo da area total da propriedade.
+     * @result PropertyTotalAreaDTO  vai ser criado sem nenhum erro
+     */
     @Test
     public void calculateTotalAreaPropertyTest() {
             List<Room> rooms = Arrays.asList(
@@ -73,6 +87,10 @@ public class PropertyServiceTest {
             assertEquals(3300.0, propertyTotalAreaDTO.getTotalArea());
 
     }
+    /**
+     * Valida o calculo do preço da propriedade baseada no valor do m2 do bairro.
+     * @result propertyPriceDTO  vai ser criado sem nenhum erro
+     */
     @Test
     public void calculatePropertyTest() {
         List<Room> rooms = Arrays.asList(
@@ -90,8 +108,10 @@ public class PropertyServiceTest {
         assertEquals(new BigDecimal("330000.00"), propertyPriceDTO.getPrice());
 
     }
-
-
+    /**
+     * Valida o calculo da area de cada comodo da propriedade.
+     * @result RoomAreasDTO  vai ser criado sem nenhum erro
+     */
     @Test
     public void calculateRoomAreaTest(){
         List<Room> rooms = Arrays.asList(
@@ -111,7 +131,9 @@ public class PropertyServiceTest {
         assertEquals(100.0, roomnsAreaDTO.getRoomAreas().get("living room"));
 
     }
-
+    /**
+     * Gera propriedades para realizar testes.
+     */
     private List<Property> generateProperties() {
         List<Property> properties = new ArrayList<>();
 
@@ -136,7 +158,10 @@ public class PropertyServiceTest {
 
         return properties;
     }
-
+    /**
+     * Busca todas as propriedade.
+     * @result List<PropertyDTO> devera ser criado sem nenhum erro
+     */
     @Test
     public void getAllPropertiesToDtoTest() {
         List<Property> propertyList = generateProperties();
@@ -145,7 +170,10 @@ public class PropertyServiceTest {
         List<PropertyDTO> propertyDTOList = propertyService.getAllProperties();
         assertEquals("Tijuca", propertyDTOList.get(0).getName());
     }
-
+    /**
+     * Valida insersao de uma propriedade.
+     * @result PropertyDTO devera ser criado sem nenhum erro
+     */
     @Test
     public void insertPropertyTest() {
         List<Property> properties = generateProperties();
