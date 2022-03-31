@@ -1,8 +1,6 @@
 package br.com.meli.desafio_quality;
 
-import br.com.meli.desafio_quality.dto.DistrictDTO;
-import br.com.meli.desafio_quality.dto.PropertyDTO;
-import br.com.meli.desafio_quality.dto.RoomDTO;
+import br.com.meli.desafio_quality.dto.*;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
 import br.com.meli.desafio_quality.service.PropertyService;
@@ -17,7 +15,9 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -73,6 +73,16 @@ public class PropertyIntegration {
         propertyRepository.cleanAllProperties();
     }
 
+    private List<PropertyDTO> getAllProperties() throws Exception {
+        MvcResult getResult = mockMvc.perform(get("/property/get-all-properties"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String response = getResult.getResponse().getContentAsString();
+        return objectMapper.readValue(response, new TypeReference<>() {
+        });
+    }
+
     @Test
     public void insertPropertyAndCheckDto() throws Exception {
         DistrictDTO districtDTO = new DistrictDTO("Barra da Tijuca", BigDecimal.valueOf(15000));
@@ -112,6 +122,61 @@ public class PropertyIntegration {
         int propertyListSize = propertyDtoResponseList.size();
         assertEquals(2, propertyListSize);
 
+    }
+
+    @Test
+    public void calculateTotalAreaTest() throws Exception{
+
+        List<PropertyDTO> propertyDtoResponseList = getAllProperties();
+        PropertyDTO propertyDTO = propertyDtoResponseList.get(0);
+
+        MvcResult getResult = mockMvc.perform(get("/property/calculate-total-area-property/{propertyId}", propertyDTO.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String response = getResult.getResponse().getContentAsString();
+        PropertyTotalAreaDTO propertyTotalAreaDTO = objectMapper.readValue(response, new TypeReference<>() {});
+
+        assertEquals(150.0, propertyTotalAreaDTO.getTotalArea());
+
+    }
+
+    @Test
+    public void findLargestRoomTest() throws Exception{
+
+        List<PropertyDTO> propertyDtoResponseList = getAllProperties();
+        PropertyDTO propertyDTO = propertyDtoResponseList.get(1);
+
+        MvcResult getResult = mockMvc.perform(get("/property/find-largest-room/{propertyId}", propertyDTO.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String response = getResult.getResponse().getContentAsString();
+        LargestRoomAreaDTO largestRoomAreaDTO = objectMapper.readValue(response, new TypeReference<>() {});
+
+        assertEquals(75.0, largestRoomAreaDTO.getTotalArea());
+        assertEquals("Living room", largestRoomAreaDTO.getRoomName());
+
+    }
+
+    @Test
+    public void calculateAreaRoomsTest() throws Exception{
+
+        List<PropertyDTO> propertyDtoResponseList = getAllProperties();
+        PropertyDTO propertyDTO = propertyDtoResponseList.get(0);
+
+        MvcResult getResult = mockMvc.perform(get("/property/calculate-area-rooms/{propertyId}", propertyDTO.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String response = getResult.getResponse().getContentAsString();
+        RoomAreasDTO roomAreasDTO = objectMapper.readValue(response, new TypeReference<>() {});
+
+        Map<String, Double> listExpected = Map.of(
+                "Kitchen", 50.0,
+                "Living room", 100.0
+        );
+        assertEquals(listExpected, roomAreasDTO.getRoomAreas());
     }
 
 //    @Test
