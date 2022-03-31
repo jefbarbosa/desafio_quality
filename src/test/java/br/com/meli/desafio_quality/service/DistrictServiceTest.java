@@ -1,10 +1,8 @@
 package br.com.meli.desafio_quality.service;
 
 import br.com.meli.desafio_quality.dto.DistrictDTO;
-import br.com.meli.desafio_quality.dto.ErrorDTO;
 import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.exception.DistrictNotFoundException;
-import br.com.meli.desafio_quality.exception.PropertyException;
 import br.com.meli.desafio_quality.repository.DistrictRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

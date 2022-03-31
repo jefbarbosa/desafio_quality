@@ -1,9 +1,11 @@
-package br.com.meli.desafio_quality.controller;
+package br.com.meli.desafio_quality;
 
 import br.com.meli.desafio_quality.dto.*;
+import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
 import br.com.meli.desafio_quality.service.PropertyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
@@ -14,11 +16,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -210,5 +215,73 @@ public class PropertyIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
+        String result = postResult.getResponse().getContentAsString(UTF_8);
+        ErrorDTO errorDTO = objectMapper.readValue(result, new TypeReference<>() {});
+
+        assertEquals("O nome do cômodo deve começar com uma letra maiúscula.", errorDTO.getDescription());
+
+    }
+
+    @Test
+    public void insertPropertyWithoutExistentDistrict() throws Exception {
+        DistrictDTO districtDTO = new DistrictDTO("Random", BigDecimal.valueOf(15000));
+        List<RoomDTO> roomsDTO = Arrays.asList(new RoomDTO("Kitchen", 10.0, 5.0),
+                new RoomDTO("Living", 2.0, 2.0));
+
+        PropertyDTO propertyDTO = new PropertyDTO(null, "Random", districtDTO, roomsDTO);
+
+        MvcResult postResult = mockMvc.perform(post("/property/insert")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(propertyDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String result = postResult.getResponse().getContentAsString(UTF_8);
+        ErrorDTO errorDTO = objectMapper.readValue(result, new TypeReference<>() {});
+
+        assertEquals("o bairro Random não está cadastrado.", errorDTO.getDescription());
+    }
+
+    @Test
+    public void insertPropertyWithBadFormatting() throws Exception {
+        String randomString = "{\n" +
+                "    \"name\": \"Barra da Tijuca XYZ\",\n" +
+                "    \"district\": {\n" +
+                "        \"name\": \"Condominio dos ricos\",\n" +
+                "        \"valueDistrictM2\": 100\n" +
+                "    },";
+
+
+        MvcResult postResult = mockMvc.perform(post("/property/insert")
+                .contentType("application/json")
+                .content(randomString))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String result = postResult.getResponse().getContentAsString(UTF_8);
+        ErrorDTO errorDTO = objectMapper.readValue(result, new TypeReference<>() {});
+
+        assertEquals("HttpMessageNotReadableException", errorDTO.getName());
+    }
+
+    @Test
+    public void insertPropertyWithoutDistrict() throws Exception {
+        District district = new District();
+        DistrictDTO districtDTO = DistrictDTO.districtToDTO(district);
+        List<RoomDTO> roomsDTO = Arrays.asList(new RoomDTO("Kitchen", 10.0, 5.0),
+                new RoomDTO("Living", 2.0, 2.0));
+
+        PropertyDTO propertyDTO = new PropertyDTO(null, "Random", districtDTO, roomsDTO);
+
+        MvcResult postResult = mockMvc.perform(post("/property/insert")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(propertyDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String result = postResult.getResponse().getContentAsString(UTF_8);
+        ErrorDTO errorDTO = objectMapper.readValue(result, new TypeReference<>() {});
+
+        assertEquals("DistrictNotFoundException", errorDTO.getName());
     }
 }
