@@ -1,4 +1,4 @@
-package br.com.meli.desafio_quality;
+package br.com.meli.desafio_quality.controller;
 
 import br.com.meli.desafio_quality.dto.*;
 import br.com.meli.desafio_quality.entity.Property;
@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PropertyIntegration {
+public class PropertyIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -179,21 +179,36 @@ public class PropertyIntegration {
         assertEquals(listExpected, roomAreasDTO.getRoomAreas());
     }
 
-//    @Test
-//    public void insertInvalidRoomDimensionsProperty() throws Exception {
-//        //TODO - Validate Invalid Insertions
-//
-//        DistrictDTO districtDTO = new DistrictDTO("Tijuca", BigDecimal.valueOf(15000));
-//        List<RoomDTO> roomsDTO = Arrays.asList(new RoomDTO("kitchen", 10.0, 5.0),
-//                new RoomDTO("living room", -2.0, -2.0));
-//
-//        PropertyDTO propertyDTO = new PropertyDTO(null, "Tijuca Village", districtDTO, roomsDTO);
-//
-//        MvcResult postResult = mockMvc.perform(post("/property/insert")
-//                .contentType("application/json")
-//                .content(objectMapper.writeValueAsString(propertyDTO)))
-//                .andExpect(status().isCreated())
-//                .andReturn();
-//
-//    }
+    @Test
+    public void calculatePropertyPriceTest() throws Exception{
+
+        List<PropertyDTO> propertyDtoResponseList = getAllProperties();
+        PropertyDTO propertyDTO = propertyDtoResponseList.get(0);
+
+        MvcResult getResult = mockMvc.perform(get("/property/calculate-property-price/{propertyId}", propertyDTO.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String response = getResult.getResponse().getContentAsString();
+        PropertyPriceDTO propertyPriceDTO = objectMapper.readValue(response, new TypeReference<>() {});
+
+        assertEquals(BigDecimal.valueOf(2700000.0), propertyPriceDTO.getPrice());
+    }
+
+    @Test
+    public void insertInvalidRoomDimensionsProperty() throws Exception {
+
+        DistrictDTO districtDTO = new DistrictDTO("Tijuca", BigDecimal.valueOf(15000));
+        List<RoomDTO> roomsDTO = Arrays.asList(new RoomDTO("kitchen", 10.0, 5.0),
+                new RoomDTO("living room", -2.0, -2.0));
+
+        PropertyDTO propertyDTO = new PropertyDTO(null, "Tijuca Village", districtDTO, roomsDTO);
+
+        MvcResult postResult = mockMvc.perform(post("/property/insert")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(propertyDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+    }
 }
