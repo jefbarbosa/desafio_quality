@@ -1,4 +1,4 @@
-# Spring Boot "Challenge - 1" by "ITB-Two-Factor"
+# Spring Boot "Challenge - 2" by "ITB-Two-Factor"
 
 
 The objective of this project is to exercise all the learning acquired during module 2 (01/2022) of IT MELI BOOTCAMP
