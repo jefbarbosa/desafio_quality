@@ -2,6 +2,44 @@
 
 ##### Documentation Changes
 
+*  add postman collection ([6c04cff2](https://github.com/jefbarbosa/desafio_quality/commit/6c04cff2b1f78f43832fa2d99b12094ecb13e992))
+
+##### New Features
+
+*  create new exception to handle id not found ([e1f61edf](https://github.com/jefbarbosa/desafio_quality/commit/e1f61edf3fd2d0ad622bdda266a7b836a87899ac))
+
+##### Refactors
+
+*  optimize imports ([44499cd3](https://github.com/jefbarbosa/desafio_quality/commit/44499cd37009a82861c1e9438852bbee7f25eb60))
+*  create new test to cover property not found exception handler ([8d860c91](https://github.com/jefbarbosa/desafio_quality/commit/8d860c9117a4c6d78fa141feebcd9a715fcfb11e))
+
+##### Tests
+
+*  add new test to handle property not found exception ([8235fd93](https://github.com/jefbarbosa/desafio_quality/commit/8235fd93afa4b679cbd8f41a801458a2ac1db021))
+
+#### 1.0.0 (2022-04-01)
+
+##### Documentation Changes
+
+*  add postman collection ([6c04cff2](https://github.com/jefbarbosa/desafio_quality/commit/6c04cff2b1f78f43832fa2d99b12094ecb13e992))
+
+##### New Features
+
+*  create new exception to handle id not found ([e1f61edf](https://github.com/jefbarbosa/desafio_quality/commit/e1f61edf3fd2d0ad622bdda266a7b836a87899ac))
+
+##### Refactors
+
+*  optimeze imports ([7e922ec8](https://github.com/jefbarbosa/desafio_quality/commit/7e922ec8d18c928d6f24958f8c229a71eca27bfd))
+*  create new test to cover property not found exception handler ([8d860c91](https://github.com/jefbarbosa/desafio_quality/commit/8d860c9117a4c6d78fa141feebcd9a715fcfb11e))
+
+##### Tests
+
+*  add new test to handle property not found exception ([8235fd93](https://github.com/jefbarbosa/desafio_quality/commit/8235fd93afa4b679cbd8f41a801458a2ac1db021))
+
+#### 1.0.0 (2022-04-01)
+
+##### Documentation Changes
+
 *  javadoc to class test PropertyServiceTest ([f7be9f18](https://github.com/jefbarbosa/desafio_quality/commit/f7be9f18762de289d6c72c38d7927811ee1d31bb))
 *  create java docs to DistrictServiceTest, PropertyController and PropertyService ([3dad81a3](https://github.com/jefbarbosa/desafio_quality/commit/3dad81a30f760020b3d31b259d14d96432f81b72))
 *  add javadocs to DistrictService and PropertyExceptionHandler ([31f1eeeb](https://github.com/jefbarbosa/desafio_quality/commit/31f1eeebf163f9386bec364eb8d4b69392b63b98))
