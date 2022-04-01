@@ -1,10 +1,8 @@
 package br.com.meli.desafio_quality.service;
 
 import br.com.meli.desafio_quality.dto.*;
-import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
-import br.com.meli.desafio_quality.repository.DistrictRepository;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

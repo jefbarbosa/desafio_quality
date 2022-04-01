@@ -8,6 +8,7 @@ import br.com.meli.desafio_quality.dto.PropertyDTO;
 import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.entity.Room;
+import br.com.meli.desafio_quality.exception.PropertyNotFoundException;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,6 +47,7 @@ public class PropertyServiceTest {
 
     /**
      * Encontra o maior comodo da propriedade.
+     * LargestRoomAreaDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void findLargestRoomTest() {
@@ -67,6 +69,7 @@ public class PropertyServiceTest {
     }
     /**
      * Valida o calculo da area total da propriedade.
+     * PropertyTotalAreaDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void calculateTotalAreaPropertyTest() {
@@ -87,6 +90,7 @@ public class PropertyServiceTest {
     }
     /**
      * Valida o calculo do preço da propriedade baseada no valor do m2 do bairro.
+     * propertyPriceDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void calculatePropertyTest() {
@@ -107,6 +111,7 @@ public class PropertyServiceTest {
     }
     /**
      * Valida o calculo da area de cada comodo da propriedade.
+     * RoomAreasDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void calculateRoomAreaTest(){
@@ -156,6 +161,7 @@ public class PropertyServiceTest {
     }
     /**
      * Busca todas as propriedade.
+     * List<PropertyDTO> devera ser criado sem nenhum erro
      */
     @Test
     public void getAllPropertiesToDtoTest() {
@@ -166,7 +172,8 @@ public class PropertyServiceTest {
         assertEquals("Tijuca", propertyDTOList.get(0).getName());
     }
     /**
-     * Valida insersao de uma propriedade.
+     * Valida inserção de uma propriedade.
+     * PropertyDTO devera ser criado sem nenhum erro
      */
     @Test
     public void insertPropertyTest() {
@@ -179,4 +186,18 @@ public class PropertyServiceTest {
         assertEquals("XYZ-12345", response.getId());
     }
 
+    /**
+     * Valida se exceção é lançado quando id inexistente é requisitado
+     * Exceção deverá ser lançada
+     */
+    @Test
+    public void getPropertyWithouExistentIdTest() {
+        Mockito.when(propertyRepository.getProperty(Mockito.any())).thenThrow(new PropertyNotFoundException("XYZ12345-ABCD56789"));
+
+        try {
+            propertyRepository.getProperty("XYZ12345-ABCD56789");
+        } catch (PropertyNotFoundException ex) {
+            assertEquals("o ID: XYZ12345-ABCD56789 não está cadastrado.", ex.getError().getDescription());
+        }
+    }
 }

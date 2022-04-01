@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  *  Classe responsável por testar os métodos do service DistrictService

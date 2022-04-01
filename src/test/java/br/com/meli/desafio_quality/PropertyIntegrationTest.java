@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * Classe responsável pelos testes de integração dos endpoints do PropertyController.
  * @author Jederson Macedo
@@ -118,16 +117,13 @@ public class PropertyIntegrationTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        String response = postResult.getResponse().getContentAsString();
+        String response = postResult.getResponse().getContentAsString(UTF_8);
         PropertyDTO propertyDtoResponse = objectMapper.readValue(response, PropertyDTO.class);
 
         assertEquals("Tijuca Village", propertyDtoResponse.getName());
 
         Property property = propertyRepository.getProperty(propertyDtoResponse.getId());
         assertEquals("Tijuca Village", property.getName());
-
-        Property propertyNull = propertyRepository.getProperty(propertyDtoResponse.getId()+"-XYZ12345-ABCD56789");
-        assertNull(propertyNull.getName());
     }
 
     /**
@@ -322,5 +318,19 @@ public class PropertyIntegrationTest {
         ErrorDTO errorDTO = objectMapper.readValue(result, new TypeReference<>() {});
 
         assertEquals("DistrictNotFoundException", errorDTO.getName());
+    }
+    /**
+     * Valida se ocorre uma  PropertyNotFoundException quando um ID inexistente é requisitado
+     */
+    @Test
+    public void getPropertyTotalAreaWithoutValidId() throws Exception {
+        MvcResult getResult = mockMvc.perform(get("/property/calculate-property-price/{propertyId}", "XYZ12345-ABCD56789"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String response = getResult.getResponse().getContentAsString(UTF_8);
+        ErrorDTO error = objectMapper.readValue(response, new TypeReference<>() {});
+
+        assertEquals("o ID: XYZ12345-ABCD56789 não está cadastrado.", error.getDescription());
     }
 }

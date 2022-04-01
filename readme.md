@@ -37,7 +37,7 @@ matches.
 ## ENDPOINTS 
 Here are explication about endpoints you can call:
 
- * [Template](/docs/Template.MD)
+ * [Post Collection ](/desafio_quality.postman_collection.json)
 
 #### 1.0.0 (2022-04-01)
 
