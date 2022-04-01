@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "c96b2624-2288-4729-a28b-ea323b3b5a37",
+		"name": "desafio_quality",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PostProperty",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Barra da Tijuca\",\n    \"district\": {\n        \"name\": \"Barra da Tijuca\",\n        \"valueDistrictM2\": 100\n    },\n    \"rooms\": [\n        {\n            \"roomName\": \"Cozinha\",\n            \"roomWidth\": 20.0,\n            \"roomLength\": 10.0\n        },\n        {\n            \"roomName\": \"Quarto\",\n            \"roomWidth\": 10.0,\n            \"roomLength\": 10.0\n        },\n        {\n            \"roomName\": \"Sala\",\n            \"roomWidth\": 10.0,\n            \"roomLength\": 10.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$urlPrefix}}/property/insert",
+					"host": [
+						"{{$urlPrefix}}"
+					],
+					"path": [
+						"property",
+						"insert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllProperties",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Barra da Tijuca\",\n    \"district\": {\n        \"name\": \"Condominio dos ricos\",\n        \"valueDistrictM2\": 3000000\n    },\n    \"rooms\": [\n        {\n            \"roomName\": \"cozinha\",\n            \"roomWidth\": 30.0,\n            \"roomLength\": 10.0\n        },\n        {\n            \"roomName\": \"sala\",\n            \"roomWidth\": 100.0,\n            \"roomLength\": 20.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$urlPrefix}}/property/get-all-properties",
+					"host": [
+						"{{$urlPrefix}}"
+					],
+					"path": [
+						"property",
+						"get-all-properties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPropertyTotalArea",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$urlPrefix}}/property/calculate-total-area-property/a0ab1edc-6f36-45b0-894d-1eaff4886db5",
+					"host": [
+						"{{$urlPrefix}}"
+					],
+					"path": [
+						"property",
+						"calculate-total-area-property",
+						"a0ab1edc-6f36-45b0-894d-1eaff4886db5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLargestRoom",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$urlPrefix}}/property/find-largest-room/315b5811-4111-4e00-9a24-e4fe8793be9c",
+					"host": [
+						"{{$urlPrefix}}"
+					],
+					"path": [
+						"property",
+						"find-largest-room",
+						"315b5811-4111-4e00-9a24-e4fe8793be9c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRoomAreas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$urlPrefix}}/property/calculate-area-rooms/ebe0455c-6d56-4b15-8058-e1b2fa6c19f6",
+					"host": [
+						"{{$urlPrefix}}"
+					],
+					"path": [
+						"property",
+						"calculate-area-rooms",
+						"ebe0455c-6d56-4b15-8058-e1b2fa6c19f6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPropertyPrice",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$urlPrefix}}/property/calculate-property-price/ebe0455c-6d56-4b15-8058-e1b2fa6c19f6",
+					"host": [
+						"{{$urlPrefix}}"
+					],
+					"path": [
+						"property",
+						"calculate-property-price",
+						"ebe0455c-6d56-4b15-8058-e1b2fa6c19f6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "$urlPrefix",
+			"value": "http://localhost:8080"
+		}
+	]
+}
