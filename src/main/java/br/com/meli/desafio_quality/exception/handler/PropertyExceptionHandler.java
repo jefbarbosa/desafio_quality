@@ -2,11 +2,11 @@ package br.com.meli.desafio_quality.exception.handler;
 
 import br.com.meli.desafio_quality.dto.ErrorDTO;
 import br.com.meli.desafio_quality.exception.DistrictNotFoundException;
+import br.com.meli.desafio_quality.exception.PropertyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class PropertyExceptionHandler {
+
+    @ExceptionHandler()
+    public ResponseEntity<ErrorDTO> handlePropertyNotFoundException(PropertyNotFoundException ex) {
+        return new ResponseEntity<>(ex.getError(), ex.getStatus());
+    }
 
     /**
      * Exceção responsável por tratar dos casos de argumentos informados inválidos nas requisições
@@ -51,8 +56,6 @@ public class PropertyExceptionHandler {
      */
     @ExceptionHandler(DistrictNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleDistrictNotFoundException(DistrictNotFoundException ex) {
-        ErrorDTO error = new ErrorDTO("DistrictNotFoundException", ex.getError().getDescription());
-
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getError(), ex.getStatus());
     }
 }

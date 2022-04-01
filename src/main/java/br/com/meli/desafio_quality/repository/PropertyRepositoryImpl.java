@@ -2,6 +2,7 @@ package br.com.meli.desafio_quality.repository;
 
 import br.com.meli.desafio_quality.dto.PropertyDTO;
 import br.com.meli.desafio_quality.entity.Property;
+import br.com.meli.desafio_quality.exception.PropertyNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class PropertyRepositoryImpl implements PropertyRepository{
 
     @Override
     public Property getProperty(String propertyId) {
-        return properties.stream().filter(prop -> prop.getId().equals(propertyId)).findFirst().orElse(new Property());
+        return properties.stream().filter(prop -> prop.getId().equals(propertyId)).findFirst().orElseThrow(() -> new PropertyNotFoundException(propertyId));
     }
 
     @Override
