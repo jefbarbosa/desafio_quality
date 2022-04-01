@@ -3,6 +3,7 @@ package br.com.meli.desafio_quality;
 import br.com.meli.desafio_quality.dto.*;
 import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
+import br.com.meli.desafio_quality.exception.PropertyNotFoundException;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
 import br.com.meli.desafio_quality.service.PropertyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -102,7 +103,7 @@ public class PropertyIntegrationTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        String response = postResult.getResponse().getContentAsString();
+        String response = postResult.getResponse().getContentAsString(UTF_8);
         PropertyDTO propertyDtoResponse = objectMapper.readValue(response, PropertyDTO.class);
 
         assertEquals("Tijuca Village", propertyDtoResponse.getName());
@@ -110,8 +111,11 @@ public class PropertyIntegrationTest {
         Property property = propertyRepository.getProperty(propertyDtoResponse.getId());
         assertEquals("Tijuca Village", property.getName());
 
-        Property propertyNull = propertyRepository.getProperty(propertyDtoResponse.getId()+"-XYZ12345-ABCD56789");
-        assertNull(propertyNull.getName());
+        try {
+            propertyRepository.getProperty("XYZ12345-ABCD56789");
+        } catch(PropertyNotFoundException ex) {
+            assertEquals("o ID: XYZ12345-ABCD56789 não está cadastrado.", ex.getError().getDescription());
+        }
     }
 
     @Test

@@ -19,7 +19,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class PropertyExceptionHandler {
 
-    @ExceptionHandler()
+    /**
+     * Exceção responsável por tratar dos casos de id inexistente requisitado
+     *
+     * @param ex    Exceção a ser lançada
+     * @return      ResponseEntity com status code
+     */
+    @ExceptionHandler(PropertyNotFoundException.class)
     public ResponseEntity<ErrorDTO> handlePropertyNotFoundException(PropertyNotFoundException ex) {
         return new ResponseEntity<>(ex.getError(), ex.getStatus());
     }

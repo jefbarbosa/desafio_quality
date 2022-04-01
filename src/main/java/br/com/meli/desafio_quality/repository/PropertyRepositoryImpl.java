@@ -24,7 +24,7 @@ public class PropertyRepositoryImpl implements PropertyRepository{
     }
 
     @Override
-    public Property getProperty(String propertyId) {
+    public Property getProperty(String propertyId) throws PropertyNotFoundException {
         return properties.stream().filter(prop -> prop.getId().equals(propertyId)).findFirst().orElseThrow(() -> new PropertyNotFoundException(propertyId));
     }
 
