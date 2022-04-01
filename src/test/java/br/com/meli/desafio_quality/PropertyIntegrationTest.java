@@ -110,12 +110,6 @@ public class PropertyIntegrationTest {
 
         Property property = propertyRepository.getProperty(propertyDtoResponse.getId());
         assertEquals("Tijuca Village", property.getName());
-
-        try {
-            propertyRepository.getProperty("XYZ12345-ABCD56789");
-        } catch(PropertyNotFoundException ex) {
-            assertEquals("o ID: XYZ12345-ABCD56789 não está cadastrado.", ex.getError().getDescription());
-        }
     }
 
     @Test
@@ -287,5 +281,17 @@ public class PropertyIntegrationTest {
         ErrorDTO errorDTO = objectMapper.readValue(result, new TypeReference<>() {});
 
         assertEquals("DistrictNotFoundException", errorDTO.getName());
+    }
+
+    @Test
+    public void getPropertyTotalAreaWithoutValidId() throws Exception {
+        MvcResult getResult = mockMvc.perform(get("/property/calculate-property-price/{propertyId}", "XYZ12345-ABCD56789"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String response = getResult.getResponse().getContentAsString(UTF_8);
+        ErrorDTO error = objectMapper.readValue(response, new TypeReference<>() {});
+
+        assertEquals("o ID: XYZ12345-ABCD56789 não está cadastrado.", error.getDescription());
     }
 }
