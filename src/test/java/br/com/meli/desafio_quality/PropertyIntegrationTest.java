@@ -4,8 +4,6 @@ import br.com.meli.desafio_quality.dto.*;
 import br.com.meli.desafio_quality.entity.District;
 import br.com.meli.desafio_quality.entity.Property;
 import br.com.meli.desafio_quality.repository.PropertyRepository;
-import br.com.meli.desafio_quality.service.PropertyService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
@@ -14,39 +12,51 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
+/**
+ * Classe responsável pelos testes de integração dos endpoints do PropertyController.
+ * @author Jederson Macedo
+ * @author Igor Nogueira
+ * @author Luís Felipe Olimpio
+ * @author Arthur Guedes
+ * @author Lucas Troleiz
+ * @author Jeferson Barbosa
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PropertyIntegrationTest {
 
+    /**
+     * {@link MockMvc mockMvc} Servelet mockado do Spring para realizar operações Http nas rotas do controller
+     */
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * {@link ObjectMapper objectMapper} Classe para serializar e desserializar obejtos
+     */
     @Autowired
     private ObjectMapper objectMapper;
 
+    /**
+     * {@link PropertyRepository Repository} repositório que está sendo mockado
+     */
     @Autowired
     private PropertyRepository propertyRepository;
 
-    @Autowired
-    private PropertyService propertyService;
-
+    /**
+     * Metodo para preparar o ambiente de cada teste individualmente
+     */
     @BeforeEach
     private void initConfiguration() throws Exception {
         DistrictDTO districtDTO1 = new DistrictDTO("Barra da Tijuca", BigDecimal.valueOf(18000));
@@ -73,6 +83,9 @@ public class PropertyIntegrationTest {
                 .andExpect(status().isCreated());
     }
 
+    /**
+     * Resetando o ambiente após cada teste
+     */
     @AfterEach
     private void resetConfiguration() {
         propertyRepository.cleanAllProperties();
@@ -88,6 +101,9 @@ public class PropertyIntegrationTest {
         });
     }
 
+    /**
+     * Verifica se a propriedade esta sendo criada corretamente
+     */
     @Test
     public void insertPropertyAndCheckDto() throws Exception {
         DistrictDTO districtDTO = new DistrictDTO("Barra da Tijuca", BigDecimal.valueOf(15000));
@@ -114,6 +130,9 @@ public class PropertyIntegrationTest {
         assertNull(propertyNull.getName());
     }
 
+    /**
+     * Valida se todas as propriedades criadas no @Beforeach estao retornando corretamente.
+     */
     @Test
     public void getAllPropertiesTest() throws Exception{
         MvcResult getResult = mockMvc.perform(get("/property/get-all-properties"))
@@ -128,7 +147,9 @@ public class PropertyIntegrationTest {
         assertEquals(2, propertyListSize);
 
     }
-
+    /**
+     * Valida o retorno do endpoint de calculo de area de propriedade.
+     */
     @Test
     public void calculateTotalAreaTest() throws Exception{
 
@@ -145,7 +166,9 @@ public class PropertyIntegrationTest {
         assertEquals(150.0, propertyTotalAreaDTO.getTotalArea());
 
     }
-
+    /**
+     * Valida o retorno do endpoint que busca o maior comodo de determinada propriedade
+     */
     @Test
     public void findLargestRoomTest() throws Exception{
 
@@ -164,6 +187,9 @@ public class PropertyIntegrationTest {
 
     }
 
+    /**
+     * Valida o retorno do endpoint que  calcula a area de cada comodo de uma propriedade
+     */
     @Test
     public void calculateAreaRoomsTest() throws Exception{
 
@@ -183,7 +209,9 @@ public class PropertyIntegrationTest {
         );
         assertEquals(listExpected, roomAreasDTO.getRoomAreas());
     }
-
+    /**
+     * Valida o retorno do endpoint que  calcula o valor de uma propriedade
+     */
     @Test
     public void calculatePropertyPriceTest() throws Exception{
 
@@ -199,7 +227,9 @@ public class PropertyIntegrationTest {
 
         assertEquals(BigDecimal.valueOf(2700000.0), propertyPriceDTO.getPrice());
     }
-
+    /**
+     * Valida a exceção ao inserir dimensoes maiores que as permitidas
+     */
     @Test
     public void insertInvalidRoomDimensionsProperty() throws Exception {
 
@@ -222,6 +252,9 @@ public class PropertyIntegrationTest {
 
     }
 
+    /**
+     * Valida a exceção ao inserir uma propriedade com bairro inexistente
+     */
     @Test
     public void insertPropertyWithoutExistentDistrict() throws Exception {
         DistrictDTO districtDTO = new DistrictDTO("Random", BigDecimal.valueOf(15000));
@@ -242,6 +275,9 @@ public class PropertyIntegrationTest {
         assertEquals("o bairro Random não está cadastrado.", errorDTO.getDescription());
     }
 
+    /**
+     * Valida o formato do JSON  as inserir uma nova propriedade
+     */
     @Test
     public void insertPropertyWithBadFormatting() throws Exception {
         String randomString = "{\n" +
@@ -264,6 +300,9 @@ public class PropertyIntegrationTest {
         assertEquals("HttpMessageNotReadableException", errorDTO.getName());
     }
 
+    /**
+     * Valida se existe bairro ao inserir uma nova propriedade
+     */
     @Test
     public void insertPropertyWithoutDistrict() throws Exception {
         District district = new District();

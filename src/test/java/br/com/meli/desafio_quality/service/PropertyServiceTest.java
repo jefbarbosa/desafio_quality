@@ -22,7 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
- * Classe de teste responsável por testes os metodos da classe PropertyService.
+ * Classe de teste responsável por testar os metodos da classe PropertyService.
  * @author Jederson Macedo
  * @author Igor Nogueira
  * @author Arthur Guedes
@@ -46,7 +46,6 @@ public class PropertyServiceTest {
 
     /**
      * Encontra o maior comodo da propriedade.
-     * @result LargestRoomAreaDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void findLargestRoomTest() {
@@ -68,7 +67,6 @@ public class PropertyServiceTest {
     }
     /**
      * Valida o calculo da area total da propriedade.
-     * @result PropertyTotalAreaDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void calculateTotalAreaPropertyTest() {
@@ -89,7 +87,6 @@ public class PropertyServiceTest {
     }
     /**
      * Valida o calculo do preço da propriedade baseada no valor do m2 do bairro.
-     * @result propertyPriceDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void calculatePropertyTest() {
@@ -110,7 +107,6 @@ public class PropertyServiceTest {
     }
     /**
      * Valida o calculo da area de cada comodo da propriedade.
-     * @result RoomAreasDTO  vai ser criado sem nenhum erro
      */
     @Test
     public void calculateRoomAreaTest(){
@@ -160,7 +156,6 @@ public class PropertyServiceTest {
     }
     /**
      * Busca todas as propriedade.
-     * @result List<PropertyDTO> devera ser criado sem nenhum erro
      */
     @Test
     public void getAllPropertiesToDtoTest() {
@@ -172,7 +167,6 @@ public class PropertyServiceTest {
     }
     /**
      * Valida insersao de uma propriedade.
-     * @result PropertyDTO devera ser criado sem nenhum erro
      */
     @Test
     public void insertPropertyTest() {
